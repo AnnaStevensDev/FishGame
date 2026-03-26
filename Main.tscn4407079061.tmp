@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://drrp0hxfsmef0"]
+
+[ext_resource type="Script" uid="uid://bgsu50nxfdkio" path="res://knife.gd" id="1_glv2v"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_glv2v"]
+size = Vector3(0.33007813, 1.0127258, 0.019054687)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_glv2v"]
+
+[sub_resource type="Sky" id="Sky_uu6xs"]
+sky_material = SubResource("ProceduralSkyMaterial_glv2v")
+
+[sub_resource type="Environment" id="Environment_r0du0"]
+background_mode = 2
+sky = SubResource("Sky_uu6xs")
+
+[node name="Main" type="Node3D" unique_id=745939863]
+
+[node name="Knife" type="CharacterBody3D" parent="." unique_id=1558725623]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6413193, 0)
+script = ExtResource("1_glv2v")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Knife" unique_id=21583600]
+size = Vector3(0.312, 1, 0.01)
+
+[node name="Label3D" type="Label3D" parent="Knife/CSGBox3D" unique_id=2051231300]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.255, 0, 0.055)
+text = "SHARP EDGE"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Knife" unique_id=723294374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0005950928, -0.0056210877)
+shape = SubResource("BoxShape3D_glv2v")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=415604234]
+transform = Transform3D(0.99940884, -0.020708416, 0.027443152, -0.005792756, 0.6853931, 0.72815025, -0.033888187, -0.72787887, 0.68486804, 0.044769406, 1.9041632, 1.5322268)
+current = true
+fov = 56.250004
+
+[node name="Fish" type="Node3D" parent="." unique_id=1871608745]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Fish" unique_id=2060476351]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1.63, 0, 0, 0)
+radius = 0.273
+height = 2.02
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1497760464]
+environment = SubResource("Environment_r0du0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1038689419]
+transform = Transform3D(1, 0, 0, 0, -0.11436494, 0.99343884, 0, -0.99343884, -0.11436494, -0.9817276, 1.9140257, 0.06703305)

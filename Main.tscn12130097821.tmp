@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://drrp0hxfsmef0"]
+
+[ext_resource type="Script" uid="uid://bggx5iipvd12n" path="res://knife_body.gd" id="1_cm0pq"]
+[ext_resource type="Texture2D" uid="uid://dskafbdm7lwih" path="res://icon.svg" id="2_uu6xs"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_glv2v"]
+size = Vector3(0.33007813, 1.0127258, 0.019054687)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uu6xs"]
+radius = 0.5756836
+height = 2.697998
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_glv2v"]
+
+[sub_resource type="Sky" id="Sky_uu6xs"]
+sky_material = SubResource("ProceduralSkyMaterial_glv2v")
+
+[sub_resource type="Environment" id="Environment_r0du0"]
+background_mode = 2
+sky = SubResource("Sky_uu6xs")
+
+[node name="Main" type="Node3D" unique_id=745939863]
+
+[node name="KnifeNode" type="Node3D" parent="." unique_id=847749355]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+
+[node name="KnifeBody" type="CharacterBody3D" parent="KnifeNode" unique_id=1558725623]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+top_level = true
+script = ExtResource("1_cm0pq")
+
+[node name="Pointer" type="Sprite3D" parent="KnifeNode/KnifeBody" unique_id=1933873151]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.85, 0)
+axis = 1
+billboard = 2
+texture = ExtResource("2_uu6xs")
+
+[node name="TempLine" type="Sprite3D" parent="KnifeNode/KnifeBody/Pointer" unique_id=1875308023]
+transform = Transform3D(20.499998, 0, 0, 0, 0.14999998, 0, 0, 0, 0.9999999, 1.3300608, 0, 0)
+visible = false
+texture = ExtResource("2_uu6xs")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="KnifeNode/KnifeBody" unique_id=21583600]
+size = Vector3(0.312, 1, 0.01)
+
+[node name="Label3D" type="Label3D" parent="KnifeNode/KnifeBody/CSGBox3D" unique_id=2051231300]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0.255, 0, 0.055)
+text = "SHARP EDGE"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="KnifeNode/KnifeBody" unique_id=723294374]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0005950928, -0.0056210877)
+visible = false
+shape = SubResource("BoxShape3D_glv2v")
+
+[node name="Node3D" type="Node3D" parent="KnifeNode/KnifeBody" unique_id=2058575198]
+
+[node name="RayCast3D" type="RayCast3D" parent="KnifeNode/KnifeBody" unique_id=1723596057]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.49814153, 0)
+target_position = Vector3(0, -10, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=415604234]
+transform = Transform3D(0.99940884, -0.02070841, 0.02744316, -0.012942411, 0.5128934, 0.85835475, -0.031850576, -0.8582025, 0.5123222, 0.044769406, 1.9499664, 1.0548341)
+current = true
+fov = 51.2
+
+[node name="Fish" type="Node3D" parent="." unique_id=1871608745]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Fish" unique_id=2060476351]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1.5, -0.0018877983, 0.0005396605, -0.0018098354)
+radius = 0.273
+height = 2.02
+
+[node name="RigidBody3D" type="RigidBody3D" parent="Fish" unique_id=522004381]
+gravity_scale = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Fish/RigidBody3D" unique_id=2053192193]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.371, 0, 0)
+shape = SubResource("CapsuleShape3D_uu6xs")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1497760464]
+environment = SubResource("Environment_r0du0")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1038689419]
+transform = Transform3D(1, 0, 0, 0, -0.11436494, 0.99343884, 0, -0.99343884, -0.11436494, -0.9817276, 1.9140257, 0.06703305)
