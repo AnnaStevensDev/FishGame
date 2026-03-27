@@ -2,9 +2,15 @@
 
 [ext_resource type="Script" uid="uid://bggx5iipvd12n" path="res://knife_body.gd" id="1_cm0pq"]
 [ext_resource type="Texture2D" uid="uid://dskafbdm7lwih" path="res://icon.svg" id="2_uu6xs"]
+[ext_resource type="PackedScene" uid="uid://ce7gyksffwovs" path="res://CutPlaneVisualizer.tscn" id="3_r0du0"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_glv2v"]
 size = Vector3(0.33007813, 1.0127258, 0.019054687)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_uu6xs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r0du0"]
+albedo_color = Color(0, 0.19076094, 0.19088832, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_uu6xs"]
 radius = 0.5756836
@@ -31,6 +37,7 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 top_level = true
 script = ExtResource("1_cm0pq")
+visualizer_scene = ExtResource("3_r0du0")
 
 [node name="Pointer" type="Sprite3D" parent="KnifeNode/KnifeBody" unique_id=1933873151]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.14999998, 0)
@@ -59,11 +66,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0005950928, -0.005621087
 visible = false
 shape = SubResource("BoxShape3D_glv2v")
 
-[node name="Node3D" type="Node3D" parent="KnifeNode/KnifeBody" unique_id=2058575198]
-
 [node name="RayCast3D" type="RayCast3D" parent="KnifeNode/KnifeBody" unique_id=1723596057]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.49814153, 0)
 target_position = Vector3(0, -10, 0)
+
+[node name="CutPreview" type="Decal" parent="KnifeNode/KnifeBody" unique_id=1800712201]
+transform = Transform3D(1.9106855e-15, 4.371139e-08, 1, 1, -4.371139e-08, 0, 4.371139e-08, 1, -4.371139e-08, -5.569307e-10, -0.86595225, -0.012741089)
+size = Vector3(1.1264648, 0.01272583, 5.661072)
+texture_albedo = SubResource("PlaceholderTexture2D_uu6xs")
+cull_mask = 1048574
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=415604234]
 transform = Transform3D(0.99940884, -0.02070841, 0.02744316, -0.012942411, 0.5128934, 0.85835475, -0.031850576, -0.8582025, 0.5123222, 0.044769406, 1.9499664, 1.0548341)
@@ -73,17 +84,19 @@ fov = 51.2
 [node name="Fish" type="Node3D" parent="." unique_id=1871608745]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Fish" unique_id=2060476351]
+[node name="RigidBody3D" type="RigidBody3D" parent="Fish" unique_id=522004381]
+gravity_scale = 0.0
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Fish/RigidBody3D" unique_id=2060476351]
 transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 1.5, -0.0018877983, 0.0005396605, -0.0018098354)
+layers = 3
+material_override = SubResource("StandardMaterial3D_r0du0")
 radius = 0.273
 height = 2.02
 
-[node name="Label3D" type="Label3D" parent="Fish/CSGCylinder3D" unique_id=1922379213]
+[node name="Label3D" type="Label3D" parent="Fish/RigidBody3D/CSGCylinder3D" unique_id=1922379213]
 transform = Transform3D(0.020355608, -0.398926, 0.91675717, -0.9993539, -0.035291247, 0.006832629, 0.029627752, -0.91630363, -0.39938673, 0.28490174, -5.7625584e-09, 0)
 text = "FISH"
-
-[node name="RigidBody3D" type="RigidBody3D" parent="Fish" unique_id=522004381]
-gravity_scale = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Fish/RigidBody3D" unique_id=2053192193]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.371, 0, 0)

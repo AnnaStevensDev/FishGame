@@ -1,12 +1,13 @@
 extends CharacterBody3D
-# How fast the player moves in meters per second.
-@onready var movement_speed = 5
-@export var rotation_speed = .1
-@onready var acceleration = 10
 
+@export var visualizer_scene : PackedScene
+
+@onready var movement_speed = 5
+@onready var rotation_speed = .1
+@onready var acceleration = 10
 @onready var pointer : Sprite3D = $Pointer
 @onready var raycast  : RayCast3D  = $RayCast3D
-# The downward acceleration when in the air, in meters per second squared.
+
 
 var target_velocity = Vector3.ZERO
 
@@ -14,6 +15,15 @@ var target_velocity = Vector3.ZERO
 func _physics_process(delta: float) -> void: 
 	var movement_direction = Vector3.ZERO
 	var rotation = Vector3.ZERO
+	var cutting_plane : Plane
+	
+	
+	# ACTION 
+	if Input.is_action_pressed("fish_cut"):
+		cutting_plane = get_cut_plane()
+		
+	
+	
 	# MOVEMENT
 	if Input.is_action_pressed("move_right"):
 		movement_direction.x += 1
@@ -23,13 +33,10 @@ func _physics_process(delta: float) -> void:
 		movement_direction.z += 1
 	if Input.is_action_pressed("move_forward"):
 		movement_direction.z -= 1
+	
 	# ROTATION
-	#if Input.is_action_just_pressed("rotate_clockwise"):
-		#rotation.y = 30 / rotation_speed # this division here is to prevent any changes to rotation speed breaking this
 	if Input.is_action_pressed("rotate_clockwise"):
 		rotation.y += PI/6
-	#if Input.is_action_just_pressed("rotate_counterclockwise"):
-		#rotation.y = 30 / rotation_speed
 	if Input.is_action_pressed("rotate_counterclockwise"):
 		rotation.y -= PI/6
 	
@@ -50,12 +57,23 @@ func _physics_process(delta: float) -> void:
 	
 	var normal = raycast.get_collision_normal() # the normal is the perpendicular unit vector ! 
 	var xform = align_with_fish(global_transform, normal)
-	global_transform = global_transform.interpolate_with(xform, .2)
+	global_transform = global_transform.interpolate_with(xform, .2).orthonormalized()
 	
-	
+
+# keep knife's edge angled towards fish by finding its new normal based off the fish's plane
 func align_with_fish(xform, new_y : Vector3):
 	xform.basis.y = new_y
 	xform.basis.x = -xform.basis.z.cross(new_y) # get cross product
 	xform.basis = xform.basis.orthonormalized()
 	return xform
+
+func get_cut_plane():
+	var point = raycast.get_collision_point() 
+	var normal = global_transform.basis.z.normalized()
+	var vis = visualizer_scene.instantiate()
 	
+	get_tree().root.add_child(vis)
+	vis.global_position = point
+	#vis.global_transform.basis.x = normal
+	vis.global_transform = align_with_fish(vis.global_transform, normal).orthonormalized()
+	return Plane(normal, point)

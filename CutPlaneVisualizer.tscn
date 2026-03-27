@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://ce7gyksffwovs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5cjot"]
+transparency = 1
+cull_mode = 2
+albedo_color = Color(0.85490197, 0.12941177, 0.1764706, 0.4392157)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_cymbx"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" unique_id=847993021]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_5cjot")
+mesh = SubResource("PlaneMesh_cymbx")
